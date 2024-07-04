@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Ralph's Blog</title><link>https://ralph0229.github.io</link><description>some records</description><copyright>Ralph's Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://ralph0229.github.io</link></image><lastBuildDate>Thu, 04 Jul 2024 08:01:44 +0000</lastBuildDate><managingEditor>Ralph's Blog</managingEditor><ttl>60</ttl><webMaster>Ralph's Blog</webMaster><item><title>Ubuntu 22.04 以Package方式部署 Docker</title><link>https://ralph0229.github.io/post/Ubuntu%2022.04%20-yi-Package-fang-shi-bu-shu-%20Docker.html</link><description>#### 背景: &#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Ralph's Blog</title><link>https://ralph0229.github.io</link><description>some records</description><copyright>Ralph's Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://ralph0229.github.io</link></image><lastBuildDate>Thu, 04 Jul 2024 08:03:16 +0000</lastBuildDate><managingEditor>Ralph's Blog</managingEditor><ttl>60</ttl><webMaster>Ralph's Blog</webMaster><item><title>Ubuntu 22.04 以Package方式部署 Docker</title><link>https://ralph0229.github.io/post/Ubuntu%2022.04%20-yi-Package-fang-shi-bu-shu-%20Docker.html</link><description>#### 背景: &#13;
 新搞了台服务器, 用来搭建种种服务, 这个时候就要搭建一个Dokcer环境; 但是目前的网络状况你们懂的, 无法直接访问docker.com, 遂尝试另一种搭建方案&#13;
 &#13;
 首先阅读Docker官方文档&#13;
@@ -32,6 +32,7 @@ If you can't use Docker's apt repository to install Docker Engine, you can downl
 &#13;
 6. Install the .deb packages. Update the paths in the following example to where you downloaded the Docker packages.&#13;
 ```&#13;
+# 将下载下来的deb包装包一起安装了&#13;
 sudo dpkg -i ./containerd.io_&lt;version&gt;_&lt;arch&gt;.deb \&#13;
   ./docker-ce_&lt;version&gt;_&lt;arch&gt;.deb \&#13;
   ./docker-ce-cli_&lt;version&gt;_&lt;arch&gt;.deb \&#13;
@@ -40,6 +41,7 @@ sudo dpkg -i ./containerd.io_&lt;version&gt;_&lt;arch&gt;.deb \&#13;
 ```&#13;
 7. Verify that the Docker Engine installation is successful by running the hello-world image.&#13;
 ```&#13;
+# 这里是通过运行hello-world镜像来验证docker安装情况&#13;
 sudo service docker start&#13;
 sudo docker run hello-world&#13;
 ```。</description><guid isPermaLink="true">https://ralph0229.github.io/post/Ubuntu%2022.04%20-yi-Package-fang-shi-bu-shu-%20Docker.html</guid><pubDate>Thu, 04 Jul 2024 07:57:26 +0000</pubDate></item><item><title>First test</title><link>https://ralph0229.github.io/post/First%20test.html</link><description># This is a tittle&#13;

@@ -31,6 +31,7 @@ If you can't use Docker's apt repository to install Docker Engine, you can downl
 
 6. Install the .deb packages. Update the paths in the following example to where you downloaded the Docker packages.
 ```
+# 将下载下来的deb包装包一起安装了
 sudo dpkg -i ./containerd.io_<version>_<arch>.deb \
   ./docker-ce_<version>_<arch>.deb \
   ./docker-ce-cli_<version>_<arch>.deb \
@@ -39,6 +40,7 @@ sudo dpkg -i ./containerd.io_<version>_<arch>.deb \
 ```
 7. Verify that the Docker Engine installation is successful by running the hello-world image.
 ```
+# 这里是通过运行hello-world镜像来验证docker安装情况
 sudo service docker start
 sudo docker run hello-world
 ```
