@@ -44,3 +44,6 @@ sudo dpkg -i ./containerd.io_<version>_<arch>.deb \
 sudo service docker start
 sudo docker run hello-world
 ```
+
+本应该到这里就结束了, 但是由于那个原因, 直接docker run hello-world会拉取镜像超时;
+这里我选择用Cloudflare部署一个docker hub的代理服务, 来解决拉取镜像超时的问题, 请看下一篇文章.

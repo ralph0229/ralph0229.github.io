@@ -54,7 +54,10 @@ sudo dpkg -i ./containerd.io_<version>_<arch>.deb \
 # 这里是通过运行hello-world镜像来验证docker安装情况
 sudo service docker start
 sudo docker run hello-world
-```。">
+```
+
+本应该到这里就结束了, 但是由于那个原因, 直接docker run hello-world会拉取镜像超时;
+这里我选择用Cloudflare部署一个docker hub的代理服务, 来解决拉取镜像超时的问题, 请看下一篇文章.。">
 <meta property="og:title" content="Ubuntu 22.04 以Package方式部署 Docker">
 <meta property="og:description" content="#### 背景: 
 新搞了台服务器, 用来搭建种种服务, 这个时候就要搭建一个Dokcer环境; 但是目前的网络状况你们懂的, 无法直接访问docker.com, 遂尝试另一种搭建方案
@@ -101,7 +104,10 @@ sudo dpkg -i ./containerd.io_<version>_<arch>.deb \
 # 这里是通过运行hello-world镜像来验证docker安装情况
 sudo service docker start
 sudo docker run hello-world
-```。">
+```
+
+本应该到这里就结束了, 但是由于那个原因, 直接docker run hello-world会拉取镜像超时;
+这里我选择用Cloudflare部署一个docker hub的代理服务, 来解决拉取镜像超时的问题, 请看下一篇文章.。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://ralph0229.github.io/post/Ubuntu%2022.04%20-yi-Package-fang-shi-bu-shu-%20Docker.html">
 <meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
@@ -213,7 +219,9 @@ sudo dpkg -i ./containerd.io_&lt;version&gt;_&lt;arch&gt;.deb \
 <pre class="notranslate"><code class="notranslate"># 这里是通过运行hello-world镜像来验证docker安装情况
 sudo service docker start
 sudo docker run hello-world
-</code></pre></div>
+</code></pre>
+<p>本应该到这里就结束了, 但是由于那个原因, 直接docker run hello-world会拉取镜像超时;<br>
+这里我选择用Cloudflare部署一个docker hub的代理服务, 来解决拉取镜像超时的问题, 请看下一篇文章.</p></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
