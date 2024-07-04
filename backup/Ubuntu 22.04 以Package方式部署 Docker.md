@@ -6,17 +6,30 @@
 If you can't use Docker's apt repository to install Docker Engine, you can download the deb file for your release and install it manually. You need to download a new file each time you want to upgrade Docker Engine.
 1. Go to https://download.docker.com/linux/ubuntu/dists/.
 
-2. Select your Ubuntu version in the list.
+3. Select your Ubuntu version in the list.
 
-3. Go to pool/stable/ and select the applicable architecture (amd64, armhf, arm64, or s390x).
+4. Go to pool/stable/ and select the applicable architecture (amd64, armhf, arm64, or s390x).
 
-4. Download the following deb files for the Docker Engine, CLI, containerd, and Docker Compose packages:
+5. Download the following deb files for the Docker Engine, CLI, containerd, and Docker Compose packages:
     - ontainerd.io_<version>_<arch>.deb
     - docker-ce_<version>_<arch>.deb
     - docker-ce-cli_<version>_<arch>.deb
     - docker-buildx-plugin_<version>_<arch>.deb
     - docker-compose-plugin_<version>_<arch>.deb
-5. Install the .deb packages. Update the paths in the following example to where you downloaded the Docker packages.
+    ```
+    去下载符合你对应系统的docker deb安装包
+    我这里使用 lsb_release -a 查看了一下Ubuntu的发型版本
+
+    No LSB modules are available.
+    Distributor ID: Ubuntu
+    Description:    Ubuntu 22.04.3 LTS
+    Release:        22.04
+    Codename:       jammy
+
+    遂最后的目录是 https://download.docker.com/linux/ubuntu/dists/jammy/pool/stable/amd64/
+    ```
+
+6. Install the .deb packages. Update the paths in the following example to where you downloaded the Docker packages.
 ```
 sudo dpkg -i ./containerd.io_<version>_<arch>.deb \
   ./docker-ce_<version>_<arch>.deb \
@@ -24,7 +37,7 @@ sudo dpkg -i ./containerd.io_<version>_<arch>.deb \
   ./docker-buildx-plugin_<version>_<arch>.deb \
   ./docker-compose-plugin_<version>_<arch>.deb
 ```
-6. Verify that the Docker Engine installation is successful by running the hello-world image.
+7. Verify that the Docker Engine installation is successful by running the hello-world image.
 ```
 sudo service docker start
 sudo docker run hello-world
