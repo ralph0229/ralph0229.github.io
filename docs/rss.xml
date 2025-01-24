@@ -1,5 +1,57 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Ralph's Blog</title><link>https://ralph0229.github.io</link><description>some records</description><copyright>Ralph's Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://ralph0229.github.io</link></image><lastBuildDate>Thu, 04 Jul 2024 08:35:09 +0000</lastBuildDate><managingEditor>Ralph's Blog</managingEditor><ttl>60</ttl><webMaster>Ralph's Blog</webMaster><item><title>Ubuntu 22.04 部署 docker-compose</title><link>https://ralph0229.github.io/post/Ubuntu%2022.04%20-bu-shu-%20docker-compose.html</link><description>### 在部署完Docker之后, 为了方便的管理镜像的部署, 遂考虑部署docker-compose&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Ralph's Blog</title><link>https://ralph0229.github.io</link><description>some records</description><copyright>Ralph's Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://ralph0229.github.io</link></image><lastBuildDate>Fri, 24 Jan 2025 06:33:06 +0000</lastBuildDate><managingEditor>Ralph's Blog</managingEditor><ttl>60</ttl><webMaster>Ralph's Blog</webMaster><item><title>内网环境Linux升级Nginx(yum+local repo方式</title><link>https://ralph0229.github.io/post/nei-wang-huan-jing-Linux-sheng-ji-Nginx%28yum%2Blocal%20repo-fang-shi.html</link><description>具体实现方式: 
+在能访问外网的机器上获取镜像 然后通过local repo的方式使用yum更新nginx
+
+-&gt; 先备份!(备份流程不写了
+
+## 在可访问外网的机器上**同步官方仓库**到内网
+
+如果你想要**定期**获取官方（或其他镜像）最新的 Nginx 软件包（而不只是一次性下载某个版本），可以通过类似 `reposync` 或 `rsync` 的方式将外网仓库**镜像**到内网服务器。</description><guid isPermaLink="true">https://ralph0229.github.io/post/nei-wang-huan-jing-Linux-sheng-ji-Nginx%28yum%2Blocal%20repo-fang-shi.html</guid><pubDate>Thu, 23 Jan 2025 09:24:02 +0000</pubDate></item><item><title>漏洞CVE-2023-0464,CVE-2023-38545修复(升级Docker安装的MySQL版本5.7.42-&gt;5.7.44</title><link>https://ralph0229.github.io/post/lou-dong-CVE-2023-0464%2CCVE-2023-38545-xiu-fu-%28-sheng-ji-Docker-an-zhuang-de-MySQL-ban-ben-5.7.42--5.7.44.html</link><description>| 漏洞                                                         | 编号           | 机器                                        | 处理措施                                           | 其他                                                         |
+| ------------------------------------------------------------ | -------------- | ------------------------------------------- | -------------------------------------------------- | ------------------------------------------------------------ |
+| curl 缓冲区错误漏洞                    | CVE-2023-38545 | 10.13.63.6      | 升级 MySQL &gt; 5.7.43或者8.0.34                      | |
+| OpenSSL 信任管理问题漏洞       | CVE-2023-0464    | 10.13.63.6    | 升级 MySQL &gt; 5.7.42或者8.0.33                      |  |
+
+```sh
+根据docker-compose.yml
+version: '3'
+services:
+    mysql:
+        image: *********/library/mysql:5.7.42
+        container_name: mysql
+        restart: always
+        ports:
+            - 3306:3306
+        environment:
+            MYSQL_ROOT_PASSWORD: *********
+            TZ: Asia/Shanghai
+        volumes:
+            - /opt/mysql/conf/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
+            - /opt/mysql/data:/var/lib/mysql
+
+# 备份命令
+timestamp=$(date +%Y%m%d%H%M%S) &amp;&amp; \
+tar -czf /home/mysql_conf_backup_${timestamp}.tar.gz -C /opt/mysql/conf . &amp;&amp; \
+tar -czf /home/mysql_data_backup_${timestamp}.tar.gz -C /opt/mysql/data .
+
+# 也可以dump
+docker exec -it mysql \
+mysqldump -uroot -p'**********' --all-databases &gt; /opt/mysql_backup/all_db_$(date +%Y%m%d).sql
+
+
+# 修改docker-compose文件, 根据下图, 漏洞在mysql&lt;=5.7.42时存在, 故升到最新稳定版5.7.44
+# -&gt;
+version: '3'
+services:
+    mysql:
+        image: *********/library/mysql:5.7.44
+        
+# 更新容器
+docker-compose pull mysql
+docker-compose up -d mysql
+```
+参考问题来源
+[CVE-2023-0464](https://pentest-tools.com/vulnerabilities-exploits/oracle-mysql-server-5743-8x-8034-810-security-update-cpuoct2023-windows_19223)
+[CVE-2023-0464](https://pentest-tools.com/vulnerabilities-exploits/oracle-mysql-server-5742-8x-8033-security-update-cpuoct2023-windows_19226)。</description><guid isPermaLink="true">https://ralph0229.github.io/post/lou-dong-CVE-2023-0464%2CCVE-2023-38545-xiu-fu-%28-sheng-ji-Docker-an-zhuang-de-MySQL-ban-ben-5.7.42--5.7.44.html</guid><pubDate>Thu, 23 Jan 2025 09:08:24 +0000</pubDate></item><item><title>Ubuntu 22.04 部署 docker-compose</title><link>https://ralph0229.github.io/post/Ubuntu%2022.04%20-bu-shu-%20docker-compose.html</link><description>### 在部署完Docker之后, 为了方便的管理镜像的部署, 遂考虑部署docker-compose&#13;
 首先还是阅读官方文档&#13;
 &#13;
 [On Linux](https://docs.docker.com/compose/install/standalone/#on-linux)&#13;
