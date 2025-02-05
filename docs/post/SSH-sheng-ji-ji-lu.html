@@ -106,7 +106,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 
 disable= no       //将yes改为no</pre></div>
 <div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span>让root可以登录</span>
-<span class="pl-c"><span class="pl-c">#</span>mv /etc/securetty /etc/securetty.bak</span>
+mv /etc/securetty /etc/securetty.bak
 重启服务
 service xinetd restart</pre></div>
 <p>(3). 启动相应服务，然后使用telnet登录到服务器<br>

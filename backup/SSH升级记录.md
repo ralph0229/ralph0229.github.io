@@ -33,7 +33,7 @@ disable= no       //将yes改为no
 ```
 ```sh
 #让root可以登录
-#mv /etc/securetty /etc/securetty.bak
+mv /etc/securetty /etc/securetty.bak
 重启服务
 service xinetd restart
 ```
