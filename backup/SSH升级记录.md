@@ -96,6 +96,18 @@ service sshd restart
 ssh -V
 输出版本号为“OpenSSH_9.9p1”，说明更新成功
 
+2. 关闭telnet
+```
+# 关闭服务
+systemctl stop telnet.socket
+systemctl stop xinetd
+# root可以登录
+#mv /etc/securetty.bak /etc/securetty
+
+# 卸载telnet
+yum remove telnet-server  xinetd
+```
+
 ---------------------------------------流程意料之外的问题汇总及解决方式记录--------------------------------------------------------
 #### 1. 执行yum install telnet-server telnet xinet时, 找不到可用的xinetd包
 ```
