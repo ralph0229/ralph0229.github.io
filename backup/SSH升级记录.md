@@ -1,11 +1,11 @@
 
-一、升级背景：
+## 一、升级背景：
 漏洞扫描显示linux服务器openssh有高危漏洞，需要进行修复。openssh是远程登录到linux服务器
 的重要工具，要修复此漏洞需升级到最高版本（2025年1月中旬最新版本为9.9）。
 漏洞代码:CVE-2023-38408,CVE-2008-3844,CVE-2008-3844,CVE-2019-16905,CVE-2021-41617,CVE-2020-15778
 
 
-二、升级说明： 
+## 二、升级说明： 
 
  1、所有升级文件均从官网下载。 
 
@@ -18,8 +18,8 @@
  5、升级过程出现问题需现场人员根据回退方案进行恢复操作。
 
 
-三、升级过程：
-0. 安装并启用telnet
+## 三、升级过程：
+### 0. 安装并启用telnet
 (1). 安装telnet
 ```sh
 yum install telnet-server telnet xinet
@@ -34,18 +34,22 @@ disable= no       //将yes改为no
 ```sh
 #让root可以登录
 mv /etc/securetty /etc/securetty.bak
-重启服务
+#重启服务
 service xinetd restart
 ```
 
 (3). 启动相应服务，然后使用telnet登录到服务器
+```
 systemctl start telnet.socket
 systemctl start xinetd
 chkconfig --list
+```
 
-1. 升级openssh版本到9.9p1
+### 1. 升级openssh版本到9.9p1
 (1) 下载或上传安装包openssh-9.9p1.tar.gz到/root目录下
+```
 cd ~
+```
 (2) 关闭Selinux
 ```
 setenforce 0 
@@ -59,20 +63,22 @@ cd openssh-9.9p1
 ```
 
 (4) 卸载旧版openssh
+```
 rpm -qa |grep openssh
-ps:下一步骤为删除原有ssh，但不会影响现在进行的ssh会话，所以整个操作过程不要断开ssh会话，
-否则无法再次连接，只能由现场人员进行回退后重新操作（推荐使用telnet进行升级）。
+```
+<sub>PS:下一步骤为删除原有ssh，但不会影响现在进行的ssh会话，所以整个操作过程不要断开ssh会话，
+否则无法再次连接，只能由现场人员进行回退后重新操作（推荐使用telnet进行升级）。</sub>
+
 ```
 for i in $(rpm -qa |grep openssh);do rpm -e $i --nodeps;done
 ```
-
 
 (5) 设置、编译、安装
 ```
 ./configure --prefix=/usr --sysconfdir=/etc/ssh --with-md5-passwords --with-pam --with-tcp-wrappers  --with-ssl-dir=/usr/local/ssl/lib --without-hardening
 # 整体备份原来的ssh
 mv /etc/ssh /etc/ssh.old
-# 这一步我没执行
+# 这一步我没执行(具体原因看问题总结
 cp contrib/redhat/sshd.pam /etc/pam.d/sshd
 #编译
 make
@@ -93,10 +99,12 @@ service sshd restart
 ```
 
 (7) 检查升级情况
+```
 ssh -V
+```
 输出版本号为“OpenSSH_9.9p1”，说明更新成功
 
-2. 关闭telnet
+### 2. 关闭telnet
 ```
 # 关闭服务
 systemctl stop telnet.socket

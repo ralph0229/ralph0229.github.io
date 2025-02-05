@@ -11,11 +11,11 @@
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
 <meta name="description" content="
-一、升级背景：
+## 一、升级背景：
 漏洞扫描显示linux服务器openssh有高危漏洞，需要进行修复。">
 <meta property="og:title" content="SSH升级记录">
 <meta property="og:description" content="
-一、升级背景：
+## 一、升级背景：
 漏洞扫描显示linux服务器openssh有高危漏洞，需要进行修复。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://ralph0229.github.io/post/SSH-sheng-ji-ji-lu.html">
@@ -87,19 +87,19 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><p>一、升级背景：<br>
-漏洞扫描显示linux服务器openssh有高危漏洞，需要进行修复。openssh是远程登录到linux服务器<br>
+<div class="markdown-body" id="postBody"><h2>一、升级背景：</h2>
+<p>漏洞扫描显示linux服务器openssh有高危漏洞，需要进行修复。openssh是远程登录到linux服务器<br>
 的重要工具，要修复此漏洞需升级到最高版本（2025年1月中旬最新版本为9.9）。<br>
 漏洞代码:<a title="CVE-2023-38408" data-hovercard-type="advisory" data-hovercard-url="/advisories/GHSA-px36-p9hv-7h2v/hovercard" href="https://github.com/advisories/GHSA-px36-p9hv-7h2v">CVE-2023-38408</a>,<a title="CVE-2008-3844" data-hovercard-type="advisory" data-hovercard-url="/advisories/GHSA-mmff-h39g-hgff/hovercard" href="https://github.com/advisories/GHSA-mmff-h39g-hgff">CVE-2008-3844</a>,<a title="CVE-2008-3844" data-hovercard-type="advisory" data-hovercard-url="/advisories/GHSA-mmff-h39g-hgff/hovercard" href="https://github.com/advisories/GHSA-mmff-h39g-hgff">CVE-2008-3844</a>,<a title="CVE-2019-16905" data-hovercard-type="advisory" data-hovercard-url="/advisories/GHSA-qw5m-v83j-4g26/hovercard" href="https://github.com/advisories/GHSA-qw5m-v83j-4g26">CVE-2019-16905</a>,<a title="CVE-2021-41617" data-hovercard-type="advisory" data-hovercard-url="/advisories/GHSA-mxh4-p4w6-g844/hovercard" href="https://github.com/advisories/GHSA-mxh4-p4w6-g844">CVE-2021-41617</a>,<a title="CVE-2020-15778" data-hovercard-type="advisory" data-hovercard-url="/advisories/GHSA-cvxm-8hgf-6m6m/hovercard" href="https://github.com/advisories/GHSA-cvxm-8hgf-6m6m">CVE-2020-15778</a></p>
-<p>二、升级说明：</p>
+<h2>二、升级说明：</h2>
 <p>1、所有升级文件均从官网下载。</p>
 <p>2、linux服务器系统为Centos7可适用此方案。</p>
 <p>3、Centos7系统需要有yum源，方便解决依赖关系问题。如无法实现，则需上传同系统版本安装映 像文件，作为本地yum源。</p>
 <p>4、安装过程受网络影响极大，一旦出现不可抗因素致网络断开，可能会导致升级中断，无法远程 连接，出现此情况需现场人员配合解决。</p>
 <p>5、升级过程出现问题需现场人员根据回退方案进行恢复操作。</p>
-<p>三、升级过程：<br>
-0. 安装并启用telnet<br>
-(1). 安装telnet</p>
+<h2>三、升级过程：</h2>
+<h3>0. 安装并启用telnet</h3>
+<p>(1). 安装telnet</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">yum install telnet-server telnet xinet</pre></div>
 <p>(2). 修改配置文件</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">vi /etc/xinetd.d/telnet
@@ -107,18 +107,18 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 disable= no       //将yes改为no</pre></div>
 <div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span>让root可以登录</span>
 mv /etc/securetty /etc/securetty.bak
-重启服务
+<span class="pl-c"><span class="pl-c">#</span>重启服务</span>
 service xinetd restart</pre></div>
-<p>(3). 启动相应服务，然后使用telnet登录到服务器<br>
-systemctl start telnet.socket<br>
-systemctl start xinetd<br>
-chkconfig --list</p>
-<ol>
-<li>升级openssh版本到9.9p1<br>
-(1) 下载或上传安装包openssh-9.9p1.tar.gz到/root目录下<br>
-cd ~<br>
-(2) 关闭Selinux</li>
-</ol>
+<p>(3). 启动相应服务，然后使用telnet登录到服务器</p>
+<pre class="notranslate"><code class="notranslate">systemctl start telnet.socket
+systemctl start xinetd
+chkconfig --list
+</code></pre>
+<h3>1. 升级openssh版本到9.9p1</h3>
+<p>(1) 下载或上传安装包openssh-9.9p1.tar.gz到/root目录下</p>
+<pre class="notranslate"><code class="notranslate">cd ~
+</code></pre>
+<p>(2) 关闭Selinux</p>
 <pre class="notranslate"><code class="notranslate">setenforce 0 
 sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config
 </code></pre>
@@ -127,17 +127,18 @@ sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config
 tar -xvf openssh-9.9p1.tar.gz
 cd openssh-9.9p1
 </code></pre>
-<p>(4) 卸载旧版openssh<br>
-rpm -qa |grep openssh<br>
-ps:下一步骤为删除原有ssh，但不会影响现在进行的ssh会话，所以整个操作过程不要断开ssh会话，<br>
-否则无法再次连接，只能由现场人员进行回退后重新操作（推荐使用telnet进行升级）。</p>
+<p>(4) 卸载旧版openssh</p>
+<pre class="notranslate"><code class="notranslate">rpm -qa |grep openssh
+</code></pre>
+<p><sub>PS:下一步骤为删除原有ssh，但不会影响现在进行的ssh会话，所以整个操作过程不要断开ssh会话，<br>
+否则无法再次连接，只能由现场人员进行回退后重新操作（推荐使用telnet进行升级）。</sub></p>
 <pre class="notranslate"><code class="notranslate">for i in $(rpm -qa |grep openssh);do rpm -e $i --nodeps;done
 </code></pre>
 <p>(5) 设置、编译、安装</p>
 <pre class="notranslate"><code class="notranslate">./configure --prefix=/usr --sysconfdir=/etc/ssh --with-md5-passwords --with-pam --with-tcp-wrappers  --with-ssl-dir=/usr/local/ssl/lib --without-hardening
 # 整体备份原来的ssh
 mv /etc/ssh /etc/ssh.old
-# 这一步我没执行
+# 这一步我没执行(具体原因看问题总结
 cp contrib/redhat/sshd.pam /etc/pam.d/sshd
 #编译
 make
@@ -154,12 +155,11 @@ sed -i "32a PermitRootLogin yes" /etc/ssh/sshd_config
 #重启ssh服务
 service sshd restart
 </code></pre>
-<p>(7) 检查升级情况<br>
-ssh -V<br>
-输出版本号为“OpenSSH_9.9p1”，说明更新成功</p>
-<ol start="2">
-<li>关闭telnet</li>
-</ol>
+<p>(7) 检查升级情况</p>
+<pre class="notranslate"><code class="notranslate">ssh -V
+</code></pre>
+<p>输出版本号为“OpenSSH_9.9p1”，说明更新成功</p>
+<h3>2. 关闭telnet</h3>
 <pre class="notranslate"><code class="notranslate"># 关闭服务
 systemctl stop telnet.socket
 systemctl stop xinetd
