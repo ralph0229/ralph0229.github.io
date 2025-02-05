@@ -113,6 +113,99 @@ service xinetd restart</pre></div>
 systemctl start telnet.socket<br>
 systemctl start xinetd<br>
 chkconfig --list</p>
+<ol>
+<li>升级openssh版本到9.9p1<br>
+(1) 下载或上传安装包openssh-9.9p1.tar.gz到/root目录下<br>
+cd ~<br>
+(2) 关闭Selinux</li>
+</ol>
+<pre class="notranslate"><code class="notranslate">setenforce 0 
+sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config
+</code></pre>
+<p>(3) 安装依赖关系</p>
+<pre class="notranslate"><code class="notranslate">yum install -y gcc pam-devel rpm-build wget zlib-devel openssl-devel net-tools
+tar -xvf openssh-9.9p1.tar.gz
+cd openssh-9.9p1
+</code></pre>
+<p>(4) 卸载旧版openssh<br>
+rpm -qa |grep openssh<br>
+ps:下一步骤为删除原有ssh，但不会影响现在进行的ssh会话，所以整个操作过程不要断开ssh会话，<br>
+否则无法再次连接，只能由现场人员进行回退后重新操作（推荐使用telnet进行升级）。</p>
+<pre class="notranslate"><code class="notranslate">for i in $(rpm -qa |grep openssh);do rpm -e $i --nodeps;done
+</code></pre>
+<p>(5) 设置、编译、安装</p>
+<pre class="notranslate"><code class="notranslate">./configure --prefix=/usr --sysconfdir=/etc/ssh --with-md5-passwords --with-pam --with-tcp-wrappers  --with-ssl-dir=/usr/local/ssl/lib --without-hardening
+# 整体备份原来的ssh
+mv /etc/ssh /etc/ssh.old
+# 这一步我没执行
+cp contrib/redhat/sshd.pam /etc/pam.d/sshd
+#编译
+make
+#安装
+make install
+</code></pre>
+<p>(6) 设置自启动<br>
+复制启动脚本到/etc/init.d</p>
+<pre class="notranslate"><code class="notranslate">cp contrib/redhat/sshd.init /etc/init.d/sshd
+chkconfig --add sshd
+chkconfig sshd on
+chkconfig --list|grep sshd
+sed -i "32a PermitRootLogin yes" /etc/ssh/sshd_config
+#重启ssh服务
+service sshd restart
+</code></pre>
+<p>(7) 检查升级情况<br>
+ssh -V<br>
+输出版本号为“OpenSSH_9.9p1”，说明更新成功</p>
+<p>---------------------------------------流程意料之外的问题汇总及解决方式记录--------------------------------------------------------</p>
+<h4>1. 执行yum install telnet-server telnet xinet时, 找不到可用的xinetd包</h4>
+<pre class="notranslate"><code class="notranslate">yum clean all
+yum makecache
+yum search xinetd
+</code></pre>
+<p>更新了yum的缓存, 然后重新安装成功</p>
+<h4>2. 执行vi /etc/xinetd.d/telnet后发现 telent文件为空, 故手动创建, 完整内容如下</h4>
+<pre class="notranslate"><code class="notranslate">service telnet
+{
+     flags           = REUSE
+     socket_type     = stream
+     wait            = no
+     user            = root
+     server          = /usr/sbin/in.telnetd
+     log_on_failure  += USERID
+     disable         = no
+}
+</code></pre>
+<h4>4. 执行./configure --prefix=/usr --sysconfdir=/etc/ssh --with-md5-passwords --with-pam --with-tcp-wrappers  --with-ssl-dir=/usr/local/ssl/lib --without-hardening时报错checking OpenSSL library version... configure: error: OpenSSL &gt;= 1.1.1 required (have "100020bf (OpenSSL 1.0.2k-fips  26 Jan 2017)")</h4>
+<p>这表明ssl版本太低, 要升级ssl... 由于篇幅问题, 放在下一篇文章记录</p>
+<h4>5. 这条命令我并没有执行cp contrib/redhat/sshd.pam /etc/pam.d/sshd, 执行完使用root登录不进去, 具体原因没有探究</h4>
+<p>我的sshd文件原始内容如下</p>
+<pre class="notranslate"><code class="notranslate">#%PAM-1.0
+auth       required     pam_tally2.so onerr=fail deny=5 unlock_time=600 even_deny_root root_unlock_time=600
+auth       required     pam_sepermit.so
+auth       substack     password-auth
+auth       include      postlogin
+account    required     pam_tally2.so
+account    required     pam_nologin.so
+account    include      password-auth
+password   include      password-auth
+# pam_selinux.so close should be the first session rule
+session    required     pam_selinux.so close
+session    required     pam_loginuid.so
+# pam_selinux.so open should only be followed by sessions to be executed in the user context
+session    required     pam_selinux.so open env_params
+session    optional     pam_keyinit.so force revoke
+session    include      password-auth
+session    include      postlogin
+</code></pre>
+<p>新的sshd文件如下</p>
+<pre class="notranslate"><code class="notranslate">#%PAM-1.0
+auth       required     pam_stack.so service=system-auth
+account    required     pam_nologin.so
+account    required     pam_stack.so service=system-auth
+password   required     pam_stack.so service=system-auth
+session    required     pam_stack.so service=system-auth
+</code></pre>
 <p>参考知乎回答 <a href="https://www.zhihu.com/question/517101428/answer/3041079679" rel="nofollow">校招中的“熟悉linux操作系统”一般是指达到什么程度</a></p></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
