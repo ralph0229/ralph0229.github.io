@@ -188,7 +188,7 @@ yum search xinetd
      disable         = no
 }
 </code></pre>
-<h4>4. 执行./configure --prefix=/usr --sysconfdir=/etc/ssh --with-md5-passwords --with-pam --with-tcp-wrappers  --with-ssl-dir=/usr/local/ssl/lib --without-hardening时报错checking OpenSSL library version... configure: error: OpenSSL &gt;= 1.1.1 required (have "100020bf (OpenSSL 1.0.2k-fips  26 Jan 2017)")</h4>
+<h4>4. 执行./configure --prefix=/usr --sysconfdir=/etc/ssh --with-md5-passwords --with-pam --with-tcp-wrappers  --with-ssl-dir=/usr/local/ssl --without-hardening时报错checking OpenSSL library version... configure: error: OpenSSL &gt;= 1.1.1 required (have "100020bf (OpenSSL 1.0.2k-fips  26 Jan 2017)")</h4>
 <p>这表明ssl版本太低, 要升级ssl... 由于篇幅问题, 放在下一篇文章记录</p>
 <h4>5. 这条命令我并没有执行cp contrib/redhat/sshd.pam /etc/pam.d/sshd, 执行完使用root登录不进去, 具体原因没有探究</h4>
 <p>我的sshd文件原始内容如下</p>

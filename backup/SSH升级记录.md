@@ -139,7 +139,7 @@ service telnet
 }
 ```
 
-#### 4. 执行./configure --prefix=/usr --sysconfdir=/etc/ssh --with-md5-passwords --with-pam --with-tcp-wrappers  --with-ssl-dir=/usr/local/ssl/lib --without-hardening时报错checking OpenSSL library version... configure: error: OpenSSL >= 1.1.1 required (have "100020bf (OpenSSL 1.0.2k-fips  26 Jan 2017)")
+#### 4. 执行./configure --prefix=/usr --sysconfdir=/etc/ssh --with-md5-passwords --with-pam --with-tcp-wrappers  --with-ssl-dir=/usr/local/ssl --without-hardening时报错checking OpenSSL library version... configure: error: OpenSSL >= 1.1.1 required (have "100020bf (OpenSSL 1.0.2k-fips  26 Jan 2017)")
 这表明ssl版本太低, 要升级ssl... 由于篇幅问题, 放在下一篇文章记录
 
 
