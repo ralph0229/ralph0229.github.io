@@ -110,6 +110,7 @@ cd openssl-1.1.1w
 <h3>2. 编译并安装 OpenSSL 到自定义目录</h3>
 <p>建议安装在 <code class="notranslate">/usr/local/ssl</code>（注意不要覆盖系统自带的 OpenSSL）：</p>
 <pre class="notranslate"><code class="notranslate">./config --prefix=/usr/local/ssl --openssldir=/usr/local/ssl shared zlib
+make
 make test
 
 # make test报错 Parse errors: No plan found in TAP output 

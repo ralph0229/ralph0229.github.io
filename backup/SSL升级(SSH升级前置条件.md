@@ -27,6 +27,7 @@ cd openssl-1.1.1w
 
 ```
 ./config --prefix=/usr/local/ssl --openssldir=/usr/local/ssl shared zlib
+make
 make test
 
 # make test报错 Parse errors: No plan found in TAP output 
