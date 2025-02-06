@@ -99,17 +99,19 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>5、升级过程出现问题需现场人员根据回退方案进行恢复操作。</p>
 <h2>三、升级过程：</h2>
 <h3>0. 安装并启用telnet</h3>
-<p>(1). 安装telnet</p>
+<p>(1) 安装telnet</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">yum install telnet-server telnet xinet</pre></div>
-<p>(2). 修改配置文件</p>
+<p>(2) 修改配置文件(如果用xinetd管理, 则进行这一步</p>
 <div class="highlight highlight-source-shell"><pre class="notranslate">vi /etc/xinetd.d/telnet
 
-disable= no       //将yes改为no</pre></div>
-<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span>让root可以登录</span>
-mv /etc/securetty /etc/securetty.bak
+disable= no       //将yes改为no
+
 <span class="pl-c"><span class="pl-c">#</span>重启服务</span>
 service xinetd restart</pre></div>
-<p>(3). 启动相应服务，然后使用telnet登录到服务器</p>
+<p>(3) 让root可以登录</p>
+<pre class="notranslate"><code class="notranslate">mv /etc/securetty /etc/securetty.bak
+</code></pre>
+<p>(4) 启动相应服务，然后使用telnet登录到服务器(按需启动socket或者xinetd</p>
 <pre class="notranslate"><code class="notranslate">systemctl start telnet.socket
 systemctl start xinetd
 chkconfig --list

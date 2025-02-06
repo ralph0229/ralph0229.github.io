@@ -20,25 +20,26 @@
 
 ## 三、升级过程：
 ### 0. 安装并启用telnet
-(1). 安装telnet
+(1) 安装telnet
 ```sh
 yum install telnet-server telnet xinet
 ```
 
-(2). 修改配置文件
+(2) 修改配置文件(如果用xinetd管理, 则进行这一步
 ```sh
 vi /etc/xinetd.d/telnet
 
 disable= no       //将yes改为no
-```
-```sh
-#让root可以登录
-mv /etc/securetty /etc/securetty.bak
+
 #重启服务
 service xinetd restart
 ```
+(3) 让root可以登录
+```
+mv /etc/securetty /etc/securetty.bak
+```
 
-(3). 启动相应服务，然后使用telnet登录到服务器
+(4) 启动相应服务，然后使用telnet登录到服务器(按需启动socket或者xinetd
 ```
 systemctl start telnet.socket
 systemctl start xinetd
