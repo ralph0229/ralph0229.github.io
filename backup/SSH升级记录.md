@@ -110,7 +110,7 @@ ssh -V
 systemctl stop telnet.socket
 systemctl stop xinetd
 # root可以登录
-#mv /etc/securetty.bak /etc/securetty
+mv /etc/securetty.bak /etc/securetty
 
 # 卸载telnet
 yum remove telnet-server  xinetd
