@@ -1,9 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Ralph's Blog</title><link>https://ralph0229.github.io</link><description>some records</description><copyright>Ralph's Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://ralph0229.github.io</link></image><lastBuildDate>Fri, 19 Dec 2025 06:46:39 +0000</lastBuildDate><managingEditor>Ralph's Blog</managingEditor><ttl>60</ttl><webMaster>Ralph's Blog</webMaster><item><title>Doris 2.1.8 Arm部署</title><link>https://ralph0229.github.io/post/Doris%202.1.8%20Arm-bu-shu.html</link><description>[https://doris.apache.org/zh-CN/docs/3.x/gettingStarted/quick-start](https://doris.apache.org/zh-CN/docs/3.x/gettingStarted/quick-start#%E7%AC%AC-1-%E6%AD%A5%E4%B8%8B%E8%BD%BD-quick-start-%E8%84%9A%E6%9C%AC)
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Ralph's Blog</title><link>https://ralph0229.github.io</link><description>some records</description><copyright>Ralph's Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://ralph0229.github.io</link></image><lastBuildDate>Fri, 19 Dec 2025 07:15:41 +0000</lastBuildDate><managingEditor>Ralph's Blog</managingEditor><ttl>60</ttl><webMaster>Ralph's Blog</webMaster><item><title>Doris 2.1.8 Arm部署</title><link>https://ralph0229.github.io/post/Doris%202.1.8%20Arm-bu-shu.html</link><description>[https://doris.apache.org/zh-CN/docs/3.x/gettingStarted/quick-start](https://doris.apache.org/zh-CN/docs/3.x/gettingStarted/quick-start#%E7%AC%AC-1-%E6%AD%A5%E4%B8%8B%E8%BD%BD-quick-start-%E8%84%9A%E6%9C%AC)
 
 # **使用 Docker 快速部署**
 
 自 Doris 2.1.8 版本后，可以使用 Docker 进行快速部署。</description><guid isPermaLink="true">https://ralph0229.github.io/post/Doris%202.1.8%20Arm-bu-shu.html</guid><pubDate>Fri, 19 Dec 2025 06:44:49 +0000</pubDate></item><item><title>Dolphin Scheduler Arm部署</title><link>https://ralph0229.github.io/post/Dolphin%20Scheduler%20Arm-bu-shu.html</link><description># Dolphin Scheduler Arm部署
+
+
+https://dolphinscheduler.apache.org/zh-cn/docs/3.3.2/guide/start/docker
 
 ```yaml
 # Licensed to the Apache Software Foundation (ASF) under one
