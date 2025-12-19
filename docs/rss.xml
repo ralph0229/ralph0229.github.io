@@ -1,5 +1,42 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Ralph's Blog</title><link>https://ralph0229.github.io</link><description>some records</description><copyright>Ralph's Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://ralph0229.github.io</link></image><lastBuildDate>Wed, 05 Feb 2025 06:55:38 +0000</lastBuildDate><managingEditor>Ralph's Blog</managingEditor><ttl>60</ttl><webMaster>Ralph's Blog</webMaster><item><title>SSL升级(SSH升级前置条件</title><link>https://ralph0229.github.io/post/SSL-sheng-ji-%28SSH-sheng-ji-qian-zhi-tiao-jian.html</link><description>## 升级 OpenSSL 的基本思路
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Ralph's Blog</title><link>https://ralph0229.github.io</link><description>some records</description><copyright>Ralph's Blog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://ralph0229.github.io</link></image><lastBuildDate>Fri, 19 Dec 2025 05:23:37 +0000</lastBuildDate><managingEditor>Ralph's Blog</managingEditor><ttl>60</ttl><webMaster>Ralph's Blog</webMaster><item><title>Nacos ARM 环境部署笔记（Docker + MySQL）</title><link>https://ralph0229.github.io/post/Nacos%20ARM%20-huan-jing-bu-shu-bi-ji-%EF%BC%88Docker%20%2B%20MySQL%EF%BC%89.html</link><description># Nacos ARM 环境部署笔记（Docker + MySQL）
+
+&gt; 适用场景：
+&gt;
+&gt; * ARM 架构服务器（Apple Silicon / ARM 云服务器）
+&gt; * Docker 部署 Nacos
+&gt; * 使用外部 MySQL
+&gt; * 版本：2.2.3 / 2.3.x
+
+---
+
+## 一、环境说明
+
+* 架构：`linux/arm64`
+* 部署方式：Docker（standalone）
+* Nacos 版本：
+
+  * 新版本：2.3.x
+  * 旧版本：2.2.3
+* 数据库：外部 MySQL
+
+---
+
+## 二、拉取官方 Docker 配置
+
+```bash
+git clone https://github.com/nacos-group/nacos-docker.git
+cd nacos-docker/example
+```
+
+官方命令：
+
+```bash
+./mysql-init.sh &amp;&amp; docker-compose -f standalone-mysql.yaml up
+```
+
+⚠️ **问题说明**：
+官方 `standalone-mysql.yaml` 会默认启动一个 MySQL 容器，但实际环境中已有 MySQL，因此需要调整配置。</description><guid isPermaLink="true">https://ralph0229.github.io/post/Nacos%20ARM%20-huan-jing-bu-shu-bi-ji-%EF%BC%88Docker%20%2B%20MySQL%EF%BC%89.html</guid><pubDate>Fri, 19 Dec 2025 02:02:16 +0000</pubDate></item><item><title>SSL升级(SSH升级前置条件</title><link>https://ralph0229.github.io/post/SSL-sheng-ji-%28SSH-sheng-ji-qian-zhi-tiao-jian.html</link><description>## 升级 OpenSSL 的基本思路
 
 1. **下载新版 OpenSSL 源码**
    从 OpenSSL 官网 下载你所需要的 OpenSSL 版本（例如 1.1.1 系列或更新版本）。</description><guid isPermaLink="true">https://ralph0229.github.io/post/SSL-sheng-ji-%28SSH-sheng-ji-qian-zhi-tiao-jian.html</guid><pubDate>Wed, 05 Feb 2025 06:55:15 +0000</pubDate></item><item><title>SSH升级记录</title><link>https://ralph0229.github.io/post/SSH-sheng-ji-ji-lu.html</link><description>
