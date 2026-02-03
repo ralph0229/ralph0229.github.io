@@ -777,7 +777,7 @@ docker-compose --profile all up -d
 <meta property="og:url" content="https://ralph0229.github.io/post/Dolphin%20Scheduler%20Arm-bu-shu.html">
 <meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
 <title>Dolphin Scheduler Arm部署</title>
-<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
 
 
 </head>
@@ -845,326 +845,328 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     <div id="content">
 <div class="markdown-body" id="postBody"><h1>Dolphin Scheduler Arm部署</h1>
 <p><a href="https://dolphinscheduler.apache.org/zh-cn/docs/3.3.2/guide/start/docker" rel="nofollow">https://dolphinscheduler.apache.org/zh-cn/docs/3.3.2/guide/start/docker</a></p>
-<div class="highlight highlight-source-yaml"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> Licensed to the Apache Software Foundation (ASF) under one</span>
-<span class="pl-c"><span class="pl-c">#</span> or more contributor license agreements.  See the NOTICE file</span>
-<span class="pl-c"><span class="pl-c">#</span> distributed with this work for additional information</span>
-<span class="pl-c"><span class="pl-c">#</span> regarding copyright ownership.  The ASF licenses this file</span>
-<span class="pl-c"><span class="pl-c">#</span> to you under the Apache License, Version 2.0 (the</span>
-<span class="pl-c"><span class="pl-c">#</span> "License"); you may not use this file except in compliance</span>
-<span class="pl-c"><span class="pl-c">#</span> with the License.  You may obtain a copy of the License at</span>
-<span class="pl-c"><span class="pl-c">#</span></span>
-<span class="pl-c"><span class="pl-c">#</span>     http://www.apache.org/licenses/LICENSE-2.0</span>
-<span class="pl-c"><span class="pl-c">#</span></span>
-<span class="pl-c"><span class="pl-c">#</span> Unless required by applicable law or agreed to in writing, software</span>
-<span class="pl-c"><span class="pl-c">#</span> distributed under the License is distributed on an "AS IS" BASIS,</span>
-<span class="pl-c"><span class="pl-c">#</span> WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
-<span class="pl-c"><span class="pl-c">#</span> See the License for the specific language governing permissions and</span>
-<span class="pl-c"><span class="pl-c">#</span> limitations under the License.</span>
+<pre lang="yaml" class="notranslate"><code class="notranslate"># Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
-<span class="pl-ent">version</span>: <span class="pl-s"><span class="pl-pds">"</span>3.8<span class="pl-pds">"</span></span>
+version: "3.8"
 
-<span class="pl-ent">services</span>:
-  <span class="pl-ent">dolphinscheduler-postgresql</span>:
-    <span class="pl-ent">image</span>: <span class="pl-s">bitnami/postgresql:15.2.0</span>
-    <span class="pl-ent">ports</span>:
-      - <span class="pl-s"><span class="pl-pds">"</span>5432:5432<span class="pl-pds">"</span></span>
-    <span class="pl-ent">profiles</span>: <span class="pl-s">["all", "schema"]</span>
-    <span class="pl-ent">environment</span>:
-      <span class="pl-ent">POSTGRESQL_USERNAME</span>: <span class="pl-s">root</span>
-      <span class="pl-ent">POSTGRESQL_PASSWORD</span>: <span class="pl-s">root</span>
-      <span class="pl-ent">POSTGRESQL_DATABASE</span>: <span class="pl-s">dolphinscheduler</span>
-    <span class="pl-ent">volumes</span>:
-      - <span class="pl-s">dolphinscheduler-postgresql:/bitnami/postgresql</span>
-    <span class="pl-ent">healthcheck</span>:
-      <span class="pl-ent">test</span>: <span class="pl-s">["CMD", "bash", "-c", "cat &lt; /dev/null &gt; /dev/tcp/127.0.0.1/5432"]</span>
-      <span class="pl-ent">interval</span>: <span class="pl-c1">5s</span>
-      <span class="pl-ent">timeout</span>: <span class="pl-c1">60s</span>
-      <span class="pl-ent">retries</span>: <span class="pl-c1">120</span>
-    <span class="pl-ent">networks</span>:
-      - <span class="pl-s">dolphinscheduler</span>
+services:
+  dolphinscheduler-postgresql:
+    image: bitnami/postgresql:15.2.0
+    ports:
+      - "5432:5432"
+    profiles: ["all", "schema"]
+    environment:
+      POSTGRESQL_USERNAME: root
+      POSTGRESQL_PASSWORD: root
+      POSTGRESQL_DATABASE: dolphinscheduler
+    volumes:
+      - dolphinscheduler-postgresql:/bitnami/postgresql
+    healthcheck:
+      test: ["CMD", "bash", "-c", "cat &lt; /dev/null &gt; /dev/tcp/127.0.0.1/5432"]
+      interval: 5s
+      timeout: 60s
+      retries: 120
+    networks:
+      - dolphinscheduler
 
-  <span class="pl-ent">dolphinscheduler-zookeeper</span>:
-    <span class="pl-ent">image</span>: <span class="pl-s">bitnami/zookeeper:3.7.1</span>
-    <span class="pl-ent">profiles</span>: <span class="pl-s">["all"]</span>
-    <span class="pl-ent">environment</span>:
-      <span class="pl-ent">ALLOW_ANONYMOUS_LOGIN</span>: <span class="pl-s"><span class="pl-pds">"</span>yes<span class="pl-pds">"</span></span>
-      <span class="pl-ent">ZOO_4LW_COMMANDS_WHITELIST</span>: <span class="pl-s">srvr,ruok,wchs,cons</span>
-    <span class="pl-ent">volumes</span>:
-      - <span class="pl-s">dolphinscheduler-zookeeper:/bitnami/zookeeper</span>
-    <span class="pl-ent">healthcheck</span>:
-      <span class="pl-ent">test</span>: <span class="pl-s">["CMD", "bash", "-c", "cat &lt; /dev/null &gt; /dev/tcp/127.0.0.1/2181"]</span>
-      <span class="pl-ent">interval</span>: <span class="pl-c1">5s</span>
-      <span class="pl-ent">timeout</span>: <span class="pl-c1">60s</span>
-      <span class="pl-ent">retries</span>: <span class="pl-c1">120</span>
-    <span class="pl-ent">networks</span>:
-      - <span class="pl-s">dolphinscheduler</span>
+  dolphinscheduler-zookeeper:
+    image: bitnami/zookeeper:3.7.1
+    profiles: ["all"]
+    environment:
+      ALLOW_ANONYMOUS_LOGIN: "yes"
+      ZOO_4LW_COMMANDS_WHITELIST: srvr,ruok,wchs,cons
+    volumes:
+      - dolphinscheduler-zookeeper:/bitnami/zookeeper
+    healthcheck:
+      test: ["CMD", "bash", "-c", "cat &lt; /dev/null &gt; /dev/tcp/127.0.0.1/2181"]
+      interval: 5s
+      timeout: 60s
+      retries: 120
+    networks:
+      - dolphinscheduler
 
-  <span class="pl-ent">dolphinscheduler-schema-initializer</span>:
-    <span class="pl-ent">image</span>: <span class="pl-s">${HUB}/dolphinscheduler-tools:${TAG}</span>
-    <span class="pl-ent">env_file</span>: <span class="pl-s">.env</span>
-    <span class="pl-ent">profiles</span>: <span class="pl-s">["schema"]</span>
-    <span class="pl-ent">command</span>: <span class="pl-s">[ tools/bin/upgrade-schema.sh ]</span>
-    <span class="pl-ent">depends_on</span>:
-      <span class="pl-ent">dolphinscheduler-postgresql</span>:
-        <span class="pl-ent">condition</span>: <span class="pl-s">service_healthy</span>
-    <span class="pl-ent">volumes</span>:
-      - <span class="pl-s">dolphinscheduler-logs:/opt/dolphinscheduler/logs</span>
-      - <span class="pl-s">dolphinscheduler-shared-local:/opt/soft</span>
-      - <span class="pl-s">dolphinscheduler-resource-local:/dolphinscheduler</span>
-    <span class="pl-ent">networks</span>:
-      - <span class="pl-s">dolphinscheduler</span>
+  dolphinscheduler-schema-initializer:
+    image: ${HUB}/dolphinscheduler-tools:${TAG}
+    env_file: .env
+    profiles: ["schema"]
+    command: [ tools/bin/upgrade-schema.sh ]
+    depends_on:
+      dolphinscheduler-postgresql:
+        condition: service_healthy
+    volumes:
+      - dolphinscheduler-logs:/opt/dolphinscheduler/logs
+      - dolphinscheduler-shared-local:/opt/soft
+      - dolphinscheduler-resource-local:/dolphinscheduler
+    networks:
+      - dolphinscheduler
 
-  <span class="pl-ent">dolphinscheduler-api</span>:
-    <span class="pl-ent">image</span>: <span class="pl-s">${HUB}/dolphinscheduler-api:${TAG}</span>
-    <span class="pl-ent">ports</span>:
-      - <span class="pl-s"><span class="pl-pds">"</span>12345:12345<span class="pl-pds">"</span></span>
-      - <span class="pl-s"><span class="pl-pds">"</span>25333:25333<span class="pl-pds">"</span></span>
-    <span class="pl-ent">profiles</span>: <span class="pl-s">["all"]</span>
-    <span class="pl-ent">env_file</span>: <span class="pl-s">.env</span>
-    <span class="pl-ent">healthcheck</span>:
-      <span class="pl-ent">test</span>: <span class="pl-s">[ "CMD", "curl", "http://localhost:12345/dolphinscheduler/actuator/health" ]</span>
-      <span class="pl-ent">interval</span>: <span class="pl-c1">30s</span>
-      <span class="pl-ent">timeout</span>: <span class="pl-c1">5s</span>
-      <span class="pl-ent">retries</span>: <span class="pl-c1">3</span>
-    <span class="pl-ent">depends_on</span>:
-      <span class="pl-ent">dolphinscheduler-zookeeper</span>:
-        <span class="pl-ent">condition</span>: <span class="pl-s">service_healthy</span>
-    <span class="pl-ent">volumes</span>:
-      - <span class="pl-s">dolphinscheduler-logs:/opt/dolphinscheduler/logs</span>
-      - <span class="pl-s">dolphinscheduler-shared-local:/opt/soft</span>
-      - <span class="pl-s">dolphinscheduler-resource-local:/dolphinscheduler</span>
-    <span class="pl-ent">networks</span>:
-      - <span class="pl-s">dolphinscheduler</span>
+  dolphinscheduler-api:
+    image: ${HUB}/dolphinscheduler-api:${TAG}
+    ports:
+      - "12345:12345"
+      - "25333:25333"
+    profiles: ["all"]
+    env_file: .env
+    healthcheck:
+      test: [ "CMD", "curl", "http://localhost:12345/dolphinscheduler/actuator/health" ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      dolphinscheduler-zookeeper:
+        condition: service_healthy
+    volumes:
+      - dolphinscheduler-logs:/opt/dolphinscheduler/logs
+      - dolphinscheduler-shared-local:/opt/soft
+      - dolphinscheduler-resource-local:/dolphinscheduler
+    networks:
+      - dolphinscheduler
 
-  <span class="pl-ent">dolphinscheduler-alert</span>:
-    <span class="pl-ent">image</span>: <span class="pl-s">${HUB}/dolphinscheduler-alert-server:${TAG}</span>
-    <span class="pl-ent">profiles</span>: <span class="pl-s">["all"]</span>
-    <span class="pl-ent">env_file</span>: <span class="pl-s">.env</span>
-    <span class="pl-ent">healthcheck</span>:
-      <span class="pl-ent">test</span>: <span class="pl-s">[ "CMD", "curl", "http://localhost:50053/actuator/health" ]</span>
-      <span class="pl-ent">interval</span>: <span class="pl-c1">30s</span>
-      <span class="pl-ent">timeout</span>: <span class="pl-c1">5s</span>
-      <span class="pl-ent">retries</span>: <span class="pl-c1">3</span>
-    <span class="pl-ent">depends_on</span>:
-      <span class="pl-ent">dolphinscheduler-zookeeper</span>:
-        <span class="pl-ent">condition</span>: <span class="pl-s">service_healthy</span>
-    <span class="pl-ent">volumes</span>:
-      - <span class="pl-s">dolphinscheduler-logs:/opt/dolphinscheduler/logs</span>
-    <span class="pl-ent">networks</span>:
-      - <span class="pl-s">dolphinscheduler</span>
+  dolphinscheduler-alert:
+    image: ${HUB}/dolphinscheduler-alert-server:${TAG}
+    profiles: ["all"]
+    env_file: .env
+    healthcheck:
+      test: [ "CMD", "curl", "http://localhost:50053/actuator/health" ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      dolphinscheduler-zookeeper:
+        condition: service_healthy
+    volumes:
+      - dolphinscheduler-logs:/opt/dolphinscheduler/logs
+    networks:
+      - dolphinscheduler
 
-  <span class="pl-ent">dolphinscheduler-master</span>:
-    <span class="pl-ent">image</span>: <span class="pl-s">${HUB}/dolphinscheduler-master:${TAG}</span>
-    <span class="pl-ent">profiles</span>: <span class="pl-s">["all"]</span>
-    <span class="pl-ent">env_file</span>: <span class="pl-s">.env</span>
-    <span class="pl-ent">healthcheck</span>:
-      <span class="pl-ent">test</span>: <span class="pl-s">[ "CMD", "curl", "http://localhost:5679/actuator/health" ]</span>
-      <span class="pl-ent">interval</span>: <span class="pl-c1">30s</span>
-      <span class="pl-ent">timeout</span>: <span class="pl-c1">5s</span>
-      <span class="pl-ent">retries</span>: <span class="pl-c1">3</span>
-    <span class="pl-ent">depends_on</span>:
-      <span class="pl-ent">dolphinscheduler-zookeeper</span>:
-        <span class="pl-ent">condition</span>: <span class="pl-s">service_healthy</span>
-    <span class="pl-ent">volumes</span>:
-      - <span class="pl-s">dolphinscheduler-logs:/opt/dolphinscheduler/logs</span>
-      - <span class="pl-s">dolphinscheduler-shared-local:/opt/soft</span>
-    <span class="pl-ent">networks</span>:
-      - <span class="pl-s">dolphinscheduler</span>
+  dolphinscheduler-master:
+    image: ${HUB}/dolphinscheduler-master:${TAG}
+    profiles: ["all"]
+    env_file: .env
+    healthcheck:
+      test: [ "CMD", "curl", "http://localhost:5679/actuator/health" ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      dolphinscheduler-zookeeper:
+        condition: service_healthy
+    volumes:
+      - dolphinscheduler-logs:/opt/dolphinscheduler/logs
+      - dolphinscheduler-shared-local:/opt/soft
+    networks:
+      - dolphinscheduler
 
-  <span class="pl-ent">dolphinscheduler-worker</span>:
-    <span class="pl-ent">image</span>: <span class="pl-s">${HUB}/dolphinscheduler-worker:${TAG}</span>
-    <span class="pl-ent">profiles</span>: <span class="pl-s">["all"]</span>
-    <span class="pl-ent">env_file</span>: <span class="pl-s">.env</span>
-    <span class="pl-ent">healthcheck</span>:
-      <span class="pl-ent">test</span>: <span class="pl-s">[ "CMD", "curl", "http://localhost:1235/actuator/health" ]</span>
-      <span class="pl-ent">interval</span>: <span class="pl-c1">30s</span>
-      <span class="pl-ent">timeout</span>: <span class="pl-c1">5s</span>
-      <span class="pl-ent">retries</span>: <span class="pl-c1">3</span>
-    <span class="pl-ent">depends_on</span>:
-      <span class="pl-ent">dolphinscheduler-zookeeper</span>:
-        <span class="pl-ent">condition</span>: <span class="pl-s">service_healthy</span>
-    <span class="pl-ent">volumes</span>:
-      - <span class="pl-s">dolphinscheduler-worker-data:/tmp/dolphinscheduler</span>
-      - <span class="pl-s">dolphinscheduler-logs:/opt/dolphinscheduler/logs</span>
-      - <span class="pl-s">dolphinscheduler-shared-local:/opt/soft</span>
-      - <span class="pl-s">dolphinscheduler-resource-local:/dolphinscheduler</span>
-    <span class="pl-ent">networks</span>:
-      - <span class="pl-s">dolphinscheduler</span>
+  dolphinscheduler-worker:
+    image: ${HUB}/dolphinscheduler-worker:${TAG}
+    profiles: ["all"]
+    env_file: .env
+    healthcheck:
+      test: [ "CMD", "curl", "http://localhost:1235/actuator/health" ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      dolphinscheduler-zookeeper:
+        condition: service_healthy
+    volumes:
+      - dolphinscheduler-worker-data:/tmp/dolphinscheduler
+      - dolphinscheduler-logs:/opt/dolphinscheduler/logs
+      - dolphinscheduler-shared-local:/opt/soft
+      - dolphinscheduler-resource-local:/dolphinscheduler
+    networks:
+      - dolphinscheduler
 
-<span class="pl-ent">networks</span>:
-  <span class="pl-ent">dolphinscheduler</span>:
-    <span class="pl-ent">driver</span>: <span class="pl-s">bridge</span>
+networks:
+  dolphinscheduler:
+    driver: bridge
 
-<span class="pl-ent">volumes</span>:
-  <span class="pl-ent">dolphinscheduler-postgresql</span>:
-  <span class="pl-ent">dolphinscheduler-zookeeper</span>:
-  <span class="pl-ent">dolphinscheduler-worker-data</span>:
-  <span class="pl-ent">dolphinscheduler-logs</span>:
-  <span class="pl-ent">dolphinscheduler-shared-local</span>:
-  <span class="pl-ent">dolphinscheduler-resource-local</span>:</pre></div>
+volumes:
+  dolphinscheduler-postgresql:
+  dolphinscheduler-zookeeper:
+  dolphinscheduler-worker-data:
+  dolphinscheduler-logs:
+  dolphinscheduler-shared-local:
+  dolphinscheduler-resource-local:
+</code></pre>
 <p>这是官方的docker-compose</p>
 <p>但是postgre和zookeeper在docker上的镜像已经404</p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/69eae9f3-63c1-417f-aa6b-95c3de643e49"><img width="1622" height="808" alt="Image" src="https://github.com/user-attachments/assets/69eae9f3-63c1-417f-aa6b-95c3de643e49" style="max-width: 100%; height: auto; max-height: 808px;"></a></p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/0f2df94e-9f43-418c-905e-4987c0657048"><img width="1229" height="683" alt="Image" src="https://github.com/user-attachments/assets/0f2df94e-9f43-418c-905e-4987c0657048" style="max-width: 100%; height: auto; max-height: 683px;"></a></p>
 <p>修改下官方的docker-compose.yml(修改postgresql和zookeeper)</p>
-<div class="highlight highlight-source-yaml"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span> Licensed to the Apache Software Foundation (ASF) under one</span>
-<span class="pl-c"><span class="pl-c">#</span> or more contributor license agreements.  See the NOTICE file</span>
-<span class="pl-c"><span class="pl-c">#</span> distributed with this work for additional information</span>
-<span class="pl-c"><span class="pl-c">#</span> regarding copyright ownership.  The ASF licenses this file</span>
-<span class="pl-c"><span class="pl-c">#</span> to you under the Apache License, Version 2.0 (the</span>
-<span class="pl-c"><span class="pl-c">#</span> "License"); you may not use this file except in compliance</span>
-<span class="pl-c"><span class="pl-c">#</span> with the License.  You may obtain a copy of the License at</span>
-<span class="pl-c"><span class="pl-c">#</span></span>
-<span class="pl-c"><span class="pl-c">#</span>     http://www.apache.org/licenses/LICENSE-2.0</span>
-<span class="pl-c"><span class="pl-c">#</span></span>
-<span class="pl-c"><span class="pl-c">#</span> Unless required by applicable law or agreed to in writing, software</span>
-<span class="pl-c"><span class="pl-c">#</span> distributed under the License is distributed on an "AS IS" BASIS,</span>
-<span class="pl-c"><span class="pl-c">#</span> WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
-<span class="pl-c"><span class="pl-c">#</span> See the License for the specific language governing permissions and</span>
-<span class="pl-c"><span class="pl-c">#</span> limitations under the License.</span>
+<pre lang="yaml" class="notranslate"><code class="notranslate"># Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
-<span class="pl-ent">version</span>: <span class="pl-s"><span class="pl-pds">"</span>3.8<span class="pl-pds">"</span></span>
+version: "3.8"
 
-<span class="pl-ent">services</span>:
-  <span class="pl-ent">dolphinscheduler-postgresql</span>:
-    <span class="pl-ent">image</span>: <span class="pl-s">bitnami/postgresql</span>
-    <span class="pl-ent">ports</span>:
-      - <span class="pl-s"><span class="pl-pds">"</span>5432:5432<span class="pl-pds">"</span></span>
-    <span class="pl-ent">profiles</span>: <span class="pl-s">["all", "schema"]</span>
-    <span class="pl-ent">environment</span>:
-      <span class="pl-ent">POSTGRESQL_USERNAME</span>: <span class="pl-s">root</span>
-      <span class="pl-ent">POSTGRESQL_PASSWORD</span>: <span class="pl-s">root</span>
-      <span class="pl-ent">POSTGRESQL_DATABASE</span>: <span class="pl-s">dolphinscheduler</span>
-    <span class="pl-ent">volumes</span>:
-      - <span class="pl-s">dolphinscheduler-postgresql:/bitnami/postgresql</span>
-    <span class="pl-ent">healthcheck</span>:
-      <span class="pl-ent">test</span>: <span class="pl-s">["CMD", "bash", "-c", "cat &lt; /dev/null &gt; /dev/tcp/127.0.0.1/5432"]</span>
-      <span class="pl-ent">interval</span>: <span class="pl-c1">5s</span>
-      <span class="pl-ent">timeout</span>: <span class="pl-c1">60s</span>
-      <span class="pl-ent">retries</span>: <span class="pl-c1">120</span>
-    <span class="pl-ent">networks</span>:
-      - <span class="pl-s">dolphinscheduler</span>
+services:
+  dolphinscheduler-postgresql:
+    image: bitnami/postgresql
+    ports:
+      - "5432:5432"
+    profiles: ["all", "schema"]
+    environment:
+      POSTGRESQL_USERNAME: root
+      POSTGRESQL_PASSWORD: root
+      POSTGRESQL_DATABASE: dolphinscheduler
+    volumes:
+      - dolphinscheduler-postgresql:/bitnami/postgresql
+    healthcheck:
+      test: ["CMD", "bash", "-c", "cat &lt; /dev/null &gt; /dev/tcp/127.0.0.1/5432"]
+      interval: 5s
+      timeout: 60s
+      retries: 120
+    networks:
+      - dolphinscheduler
 
-  <span class="pl-ent">dolphinscheduler-zookeeper</span>:
-    <span class="pl-ent">image</span>: <span class="pl-s">zookeeper:3.7.1</span>
-    <span class="pl-ent">profiles</span>: <span class="pl-s">["all"]</span>
-    <span class="pl-ent">environment</span>:
-      <span class="pl-ent">ALLOW_ANONYMOUS_LOGIN</span>: <span class="pl-s"><span class="pl-pds">"</span>yes<span class="pl-pds">"</span></span>
-      <span class="pl-ent">ZOO_4LW_COMMANDS_WHITELIST</span>: <span class="pl-s">srvr,ruok,wchs,cons</span>
-    <span class="pl-ent">volumes</span>:
-      - <span class="pl-s">dolphinscheduler-zookeeper:/bitnami/zookeeper</span>
-    <span class="pl-ent">healthcheck</span>:
-      <span class="pl-ent">test</span>: <span class="pl-s">["CMD", "bash", "-c", "cat &lt; /dev/null &gt; /dev/tcp/127.0.0.1/2181"]</span>
-      <span class="pl-ent">interval</span>: <span class="pl-c1">5s</span>
-      <span class="pl-ent">timeout</span>: <span class="pl-c1">60s</span>
-      <span class="pl-ent">retries</span>: <span class="pl-c1">120</span>
-    <span class="pl-ent">networks</span>:
-      - <span class="pl-s">dolphinscheduler</span>
+  dolphinscheduler-zookeeper:
+    image: zookeeper:3.7.1
+    profiles: ["all"]
+    environment:
+      ALLOW_ANONYMOUS_LOGIN: "yes"
+      ZOO_4LW_COMMANDS_WHITELIST: srvr,ruok,wchs,cons
+    volumes:
+      - dolphinscheduler-zookeeper:/bitnami/zookeeper
+    healthcheck:
+      test: ["CMD", "bash", "-c", "cat &lt; /dev/null &gt; /dev/tcp/127.0.0.1/2181"]
+      interval: 5s
+      timeout: 60s
+      retries: 120
+    networks:
+      - dolphinscheduler
 
-  <span class="pl-ent">dolphinscheduler-schema-initializer</span>:
-    <span class="pl-ent">image</span>: <span class="pl-s">${HUB}/dolphinscheduler-tools:${TAG}</span>
-    <span class="pl-ent">env_file</span>: <span class="pl-s">.env</span>
-    <span class="pl-ent">profiles</span>: <span class="pl-s">["schema"]</span>
-    <span class="pl-ent">command</span>: <span class="pl-s">[ tools/bin/upgrade-schema.sh ]</span>
-    <span class="pl-ent">depends_on</span>:
-      <span class="pl-ent">dolphinscheduler-postgresql</span>:
-        <span class="pl-ent">condition</span>: <span class="pl-s">service_healthy</span>
-    <span class="pl-ent">volumes</span>:
-      - <span class="pl-s">dolphinscheduler-logs:/opt/dolphinscheduler/logs</span>
-      - <span class="pl-s">dolphinscheduler-shared-local:/opt/soft</span>
-      - <span class="pl-s">dolphinscheduler-resource-local:/dolphinscheduler</span>
-    <span class="pl-ent">networks</span>:
-      - <span class="pl-s">dolphinscheduler</span>
+  dolphinscheduler-schema-initializer:
+    image: ${HUB}/dolphinscheduler-tools:${TAG}
+    env_file: .env
+    profiles: ["schema"]
+    command: [ tools/bin/upgrade-schema.sh ]
+    depends_on:
+      dolphinscheduler-postgresql:
+        condition: service_healthy
+    volumes:
+      - dolphinscheduler-logs:/opt/dolphinscheduler/logs
+      - dolphinscheduler-shared-local:/opt/soft
+      - dolphinscheduler-resource-local:/dolphinscheduler
+    networks:
+      - dolphinscheduler
 
-  <span class="pl-ent">dolphinscheduler-api</span>:
-    <span class="pl-ent">image</span>: <span class="pl-s">${HUB}/dolphinscheduler-api:${TAG}</span>
-    <span class="pl-ent">ports</span>:
-      - <span class="pl-s"><span class="pl-pds">"</span>12345:12345<span class="pl-pds">"</span></span>
-      - <span class="pl-s"><span class="pl-pds">"</span>25333:25333<span class="pl-pds">"</span></span>
-    <span class="pl-ent">profiles</span>: <span class="pl-s">["all"]</span>
-    <span class="pl-ent">env_file</span>: <span class="pl-s">.env</span>
-    <span class="pl-ent">healthcheck</span>:
-      <span class="pl-ent">test</span>: <span class="pl-s">[ "CMD", "curl", "http://localhost:12345/dolphinscheduler/actuator/health" ]</span>
-      <span class="pl-ent">interval</span>: <span class="pl-c1">30s</span>
-      <span class="pl-ent">timeout</span>: <span class="pl-c1">5s</span>
-      <span class="pl-ent">retries</span>: <span class="pl-c1">3</span>
-    <span class="pl-ent">depends_on</span>:
-      <span class="pl-ent">dolphinscheduler-zookeeper</span>:
-        <span class="pl-ent">condition</span>: <span class="pl-s">service_healthy</span>
-    <span class="pl-ent">volumes</span>:
-      - <span class="pl-s">dolphinscheduler-logs:/opt/dolphinscheduler/logs</span>
-      - <span class="pl-s">dolphinscheduler-shared-local:/opt/soft</span>
-      - <span class="pl-s">dolphinscheduler-resource-local:/dolphinscheduler</span>
-    <span class="pl-ent">networks</span>:
-      - <span class="pl-s">dolphinscheduler</span>
+  dolphinscheduler-api:
+    image: ${HUB}/dolphinscheduler-api:${TAG}
+    ports:
+      - "12345:12345"
+      - "25333:25333"
+    profiles: ["all"]
+    env_file: .env
+    healthcheck:
+      test: [ "CMD", "curl", "http://localhost:12345/dolphinscheduler/actuator/health" ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      dolphinscheduler-zookeeper:
+        condition: service_healthy
+    volumes:
+      - dolphinscheduler-logs:/opt/dolphinscheduler/logs
+      - dolphinscheduler-shared-local:/opt/soft
+      - dolphinscheduler-resource-local:/dolphinscheduler
+    networks:
+      - dolphinscheduler
 
-  <span class="pl-ent">dolphinscheduler-alert</span>:
-    <span class="pl-ent">image</span>: <span class="pl-s">${HUB}/dolphinscheduler-alert-server:${TAG}</span>
-    <span class="pl-ent">profiles</span>: <span class="pl-s">["all"]</span>
-    <span class="pl-ent">env_file</span>: <span class="pl-s">.env</span>
-    <span class="pl-ent">healthcheck</span>:
-      <span class="pl-ent">test</span>: <span class="pl-s">[ "CMD", "curl", "http://localhost:50053/actuator/health" ]</span>
-      <span class="pl-ent">interval</span>: <span class="pl-c1">30s</span>
-      <span class="pl-ent">timeout</span>: <span class="pl-c1">5s</span>
-      <span class="pl-ent">retries</span>: <span class="pl-c1">3</span>
-    <span class="pl-ent">depends_on</span>:
-      <span class="pl-ent">dolphinscheduler-zookeeper</span>:
-        <span class="pl-ent">condition</span>: <span class="pl-s">service_healthy</span>
-    <span class="pl-ent">volumes</span>:
-      - <span class="pl-s">dolphinscheduler-logs:/opt/dolphinscheduler/logs</span>
-    <span class="pl-ent">networks</span>:
-      - <span class="pl-s">dolphinscheduler</span>
+  dolphinscheduler-alert:
+    image: ${HUB}/dolphinscheduler-alert-server:${TAG}
+    profiles: ["all"]
+    env_file: .env
+    healthcheck:
+      test: [ "CMD", "curl", "http://localhost:50053/actuator/health" ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      dolphinscheduler-zookeeper:
+        condition: service_healthy
+    volumes:
+      - dolphinscheduler-logs:/opt/dolphinscheduler/logs
+    networks:
+      - dolphinscheduler
 
-  <span class="pl-ent">dolphinscheduler-master</span>:
-    <span class="pl-ent">image</span>: <span class="pl-s">${HUB}/dolphinscheduler-master:${TAG}</span>
-    <span class="pl-ent">profiles</span>: <span class="pl-s">["all"]</span>
-    <span class="pl-ent">env_file</span>: <span class="pl-s">.env</span>
-    <span class="pl-ent">healthcheck</span>:
-      <span class="pl-ent">test</span>: <span class="pl-s">[ "CMD", "curl", "http://localhost:5679/actuator/health" ]</span>
-      <span class="pl-ent">interval</span>: <span class="pl-c1">30s</span>
-      <span class="pl-ent">timeout</span>: <span class="pl-c1">5s</span>
-      <span class="pl-ent">retries</span>: <span class="pl-c1">3</span>
-    <span class="pl-ent">depends_on</span>:
-      <span class="pl-ent">dolphinscheduler-zookeeper</span>:
-        <span class="pl-ent">condition</span>: <span class="pl-s">service_healthy</span>
-    <span class="pl-ent">volumes</span>:
-      - <span class="pl-s">dolphinscheduler-logs:/opt/dolphinscheduler/logs</span>
-      - <span class="pl-s">dolphinscheduler-shared-local:/opt/soft</span>
-    <span class="pl-ent">networks</span>:
-      - <span class="pl-s">dolphinscheduler</span>
+  dolphinscheduler-master:
+    image: ${HUB}/dolphinscheduler-master:${TAG}
+    profiles: ["all"]
+    env_file: .env
+    healthcheck:
+      test: [ "CMD", "curl", "http://localhost:5679/actuator/health" ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      dolphinscheduler-zookeeper:
+        condition: service_healthy
+    volumes:
+      - dolphinscheduler-logs:/opt/dolphinscheduler/logs
+      - dolphinscheduler-shared-local:/opt/soft
+    networks:
+      - dolphinscheduler
 
-  <span class="pl-ent">dolphinscheduler-worker</span>:
-    <span class="pl-ent">image</span>: <span class="pl-s">${HUB}/dolphinscheduler-worker:${TAG}</span>
-    <span class="pl-ent">profiles</span>: <span class="pl-s">["all"]</span>
-    <span class="pl-ent">env_file</span>: <span class="pl-s">.env</span>
-    <span class="pl-ent">healthcheck</span>:
-      <span class="pl-ent">test</span>: <span class="pl-s">[ "CMD", "curl", "http://localhost:1235/actuator/health" ]</span>
-      <span class="pl-ent">interval</span>: <span class="pl-c1">30s</span>
-      <span class="pl-ent">timeout</span>: <span class="pl-c1">5s</span>
-      <span class="pl-ent">retries</span>: <span class="pl-c1">3</span>
-    <span class="pl-ent">depends_on</span>:
-      <span class="pl-ent">dolphinscheduler-zookeeper</span>:
-        <span class="pl-ent">condition</span>: <span class="pl-s">service_healthy</span>
-    <span class="pl-ent">volumes</span>:
-      - <span class="pl-s">dolphinscheduler-worker-data:/tmp/dolphinscheduler</span>
-      - <span class="pl-s">dolphinscheduler-logs:/opt/dolphinscheduler/logs</span>
-      - <span class="pl-s">dolphinscheduler-shared-local:/opt/soft</span>
-      - <span class="pl-s">dolphinscheduler-resource-local:/dolphinscheduler</span>
-    <span class="pl-ent">networks</span>:
-      - <span class="pl-s">dolphinscheduler</span>
+  dolphinscheduler-worker:
+    image: ${HUB}/dolphinscheduler-worker:${TAG}
+    profiles: ["all"]
+    env_file: .env
+    healthcheck:
+      test: [ "CMD", "curl", "http://localhost:1235/actuator/health" ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      dolphinscheduler-zookeeper:
+        condition: service_healthy
+    volumes:
+      - dolphinscheduler-worker-data:/tmp/dolphinscheduler
+      - dolphinscheduler-logs:/opt/dolphinscheduler/logs
+      - dolphinscheduler-shared-local:/opt/soft
+      - dolphinscheduler-resource-local:/dolphinscheduler
+    networks:
+      - dolphinscheduler
 
-<span class="pl-ent">networks</span>:
-  <span class="pl-ent">dolphinscheduler</span>:
-    <span class="pl-ent">driver</span>: <span class="pl-s">bridge</span>
+networks:
+  dolphinscheduler:
+    driver: bridge
 
-<span class="pl-ent">volumes</span>:
-  <span class="pl-ent">dolphinscheduler-postgresql</span>:
-  <span class="pl-ent">dolphinscheduler-zookeeper</span>:
-  <span class="pl-ent">dolphinscheduler-worker-data</span>:
-  <span class="pl-ent">dolphinscheduler-logs</span>:
-  <span class="pl-ent">dolphinscheduler-shared-local</span>:
-  <span class="pl-ent">dolphinscheduler-resource-local</span>:
-</pre></div>
+volumes:
+  dolphinscheduler-postgresql:
+  dolphinscheduler-zookeeper:
+  dolphinscheduler-worker-data:
+  dolphinscheduler-logs:
+  dolphinscheduler-shared-local:
+  dolphinscheduler-resource-local:
+
+</code></pre>
 <p>然后因为我要部署的版本是3.2.0</p>
 <p>故修改.env文件TAG=3.2.0</p>
 <pre class="notranslate"><code class="notranslate"># Licensed to the Apache Software Foundation (ASF) under one
@@ -1194,11 +1196,12 @@ SPRING_DATASOURCE_URL=jdbc:postgresql://dolphinscheduler-postgresql:5432/dolphin
 REGISTRY_ZOOKEEPER_CONNECT_STRING=dolphinscheduler-zookeeper:2181
 </code></pre>
 <p>然后按顺序执行部署命令</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c"><span class="pl-c">#</span>如果需要初始化或者升级数据库结构，需要指定profile为schema</span>
+<pre lang="bash" class="notranslate"><code class="notranslate">#如果需要初始化或者升级数据库结构，需要指定profile为schema
 docker-compose --profile schema up -d
 
-<span class="pl-c"><span class="pl-c">#</span>启动dolphinscheduler所有服务，指定profile为all</span>
-docker-compose --profile all up -d</pre></div>
+#启动dolphinscheduler所有服务，指定profile为all
+docker-compose --profile all up -d
+</code></pre>
 <p>然后启动页面测试</p>
 <p>不管你是用那种方式启动的服务，只要服务启动后，你都可以通过 <a href="http://localhost:12345/dolphinscheduler/ui" rel="nofollow">http://localhost:12345/dolphinscheduler/ui</a> 访问 DolphinScheduler。访问上述链接后会跳转到登陆页面，DolphinScheduler 默认的用户和密码分别为 <code class="notranslate">admin</code> 和 <code class="notranslate">dolphinscheduler123</code>。</p></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
