@@ -21,7 +21,7 @@
 <meta property="og:url" content="https://ralph0229.github.io/post/SSH-sheng-ji-ji-lu.html">
 <meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
 <title>SSH升级记录</title>
-<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
 
 
 </head>
@@ -100,14 +100,16 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <h2>三、升级过程：</h2>
 <h3>0. 安装并启用telnet</h3>
 <p>(1) 安装telnet</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">yum install telnet-server telnet xinet</pre></div>
+<pre lang="sh" class="notranslate"><code class="notranslate">yum install telnet-server telnet xinet
+</code></pre>
 <p>(2) 修改配置文件(如果用xinetd管理, 则进行这一步</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">vi /etc/xinetd.d/telnet
+<pre lang="sh" class="notranslate"><code class="notranslate">vi /etc/xinetd.d/telnet
 
 disable= no       //将yes改为no
 
-<span class="pl-c"><span class="pl-c">#</span>重启服务</span>
-service xinetd restart</pre></div>
+#重启服务
+service xinetd restart
+</code></pre>
 <p>(3) 让root可以登录</p>
 <pre class="notranslate"><code class="notranslate">mv /etc/securetty /etc/securetty.bak
 </code></pre>
