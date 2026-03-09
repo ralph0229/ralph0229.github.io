@@ -25,7 +25,7 @@
 <meta property="og:url" content="https://ralph0229.github.io/post/shi-yong-Cloudflare%20Workers-da-jian-zi-ji-de-docker%20hub%20-dai-li-fu-wu.html">
 <meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
 <title>使用Cloudflare Workers搭建自己的docker hub 代理服务</title>
-<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
 
 
 </head>
@@ -102,18 +102,21 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <h2>如何使用？</h2>
 <p>例如您的Workers项目域名为：<code class="notranslate">docker.fxxk.dedyn.io</code>；</p>
 <h3>1.官方镜像路径前面加域名</h3>
-<div class="highlight highlight-source-shell"><pre class="notranslate">docker pull docker.fxxk.dedyn.io/stilleshan/frpc:latest</pre></div>
-<div class="highlight highlight-source-shell"><pre class="notranslate">docker pull docker.fxxk.dedyn.io/library/nginx:stable-alpine3.19-perl</pre></div>
+<pre lang="shell" class="notranslate"><code class="notranslate">docker pull docker.fxxk.dedyn.io/stilleshan/frpc:latest
+</code></pre>
+<pre lang="shell" class="notranslate"><code class="notranslate">docker pull docker.fxxk.dedyn.io/library/nginx:stable-alpine3.19-perl
+</code></pre>
 <h3>2.一键设置镜像加速</h3>
 <p>修改文件 <code class="notranslate">/etc/docker/daemon.json</code>（如果不存在则创建）</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">sudo mkdir -p /etc/docker
-sudo tee /etc/docker/daemon.json <span class="pl-s"><span class="pl-k">&lt;&lt;</span>-'<span class="pl-k">EOF</span>'</span>
-<span class="pl-s">{</span>
-<span class="pl-s">  "registry-mirrors": ["https://docker.fxxk.dedyn.io"]  # 请替换为您自己的Worker自定义域名</span>
-<span class="pl-s">}</span>
-<span class="pl-s"><span class="pl-k">EOF</span></span>
+<pre lang="shell" class="notranslate"><code class="notranslate">sudo mkdir -p /etc/docker
+sudo tee /etc/docker/daemon.json &lt;&lt;-'EOF'
+{
+  "registry-mirrors": ["https://docker.fxxk.dedyn.io"]  # 请替换为您自己的Worker自定义域名
+}
+EOF
 sudo systemctl daemon-reload
-sudo systemctl restart docker</pre></div>
+sudo systemctl restart docker
+</code></pre>
 <p>根据仓库README文件成功实现部署, 并配置到docker damon中</p>
 <pre class="notranslate"><code class="notranslate"># 再次run hello-world
 sudo docker run hello-world
