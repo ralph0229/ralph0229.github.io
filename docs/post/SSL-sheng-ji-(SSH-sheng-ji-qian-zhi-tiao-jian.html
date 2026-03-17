@@ -23,7 +23,7 @@
 <meta property="og:url" content="https://ralph0229.github.io/post/SSL-sheng-ji-%28SSH-sheng-ji-qian-zhi-tiao-jian.html">
 <meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
 <title>SSL升级(SSH升级前置条件</title>
-<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
 
 
 </head>
@@ -136,17 +136,20 @@ make install
 <li>
 <p><strong>创建或编辑配置文件</strong><br>
 在 <code class="notranslate">/etc/ld.so.conf.d/</code> 目录下新建一个配置文件（例如 <code class="notranslate">openssl.conf</code>），写入 OpenSSL 库所在的目录：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate"><span class="pl-c1">echo</span> <span class="pl-s"><span class="pl-pds">"</span>/usr/local/ssl/lib<span class="pl-pds">"</span></span> <span class="pl-k">&gt;</span> /etc/ld.so.conf.d/openssl.conf</pre></div>
+<pre lang="sh" class="notranslate"><code class="notranslate">echo "/usr/local/ssl/lib" &gt; /etc/ld.so.conf.d/openssl.conf
+</code></pre>
 </li>
 <li>
 <p><strong>刷新链接器缓存</strong><br>
 运行下面的命令来刷新动态链接库缓存：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">ldconfig</pre></div>
+<pre lang="sh" class="notranslate"><code class="notranslate">ldconfig
+</code></pre>
 </li>
 <li>
 <p><strong>测试 OpenSSL 版本</strong><br>
 再次执行：</p>
-<div class="highlight highlight-source-shell"><pre class="notranslate">/usr/local/ssl/bin/openssl version</pre></div>
+<pre lang="sh" class="notranslate"><code class="notranslate">/usr/local/ssl/bin/openssl version
+</code></pre>
 <p>如果一切正常，就会输出正确的 OpenSSL 版本号。</p>
 </li>
 </ol></div>
